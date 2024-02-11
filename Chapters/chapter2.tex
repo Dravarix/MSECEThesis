@@ -1,0 +1,240 @@
+\chapter{Mathematical Formulation and Algorithm}
+\label{chap:math}
+
+We define an encounter between two aircraft: an ownship and an intruder. Ownship has an arbitrarily defined latitude, longitude, altitude, and heading:
+\begin{equation}
+    \phi_{O,CPA} \ \ \lambda_{O,CPA} \ \ h_{O,CPA} \ \ \theta_{O,CPA}
+\end{equation}
+The intruder will be located at:
+\begin{equation}
+    \begin{aligned}
+        \phi_{I,CPA} \ \ \lambda_{I,CPA} \ \ &h_{O,CPA} \mp D_{V,CPA} \ \ \theta_{O,CPA} \\
+        &+ \Delta \theta_{CPA} \ \ dist(\phi_{O,CPA} \ \ \lambda_{O,CPA} \ \ \phi_{I,CPA} \ \ \lambda_{I,CPA}) \\
+        &= D_{H,CPA}
+    \end{aligned}
+\end{equation}
+We can express latitude and longitude as a unit normal vector:
+\begin{equation}
+    N = (\cos{\phi}\cos{\lambda} \ \ \ \cos{\phi}\sin{\lambda} \ \ \ \sin{\phi})
+\end{equation}
+Let \(\pi_{i}(N)\) be the projection function that selects the \(i^{th}\) component of vector \(N\). We can find the north \(\hat{v}\) and east \(\hat{\epsilon}\) unit vectors at \(N\) to be:
+\begin{equation}
+    \begin{aligned}
+        \hat{v} &= \frac{(-\pi_{1}(N)\pi_{3}(N) \ \ \ -\pi_{2}(N)\pi_{3}(N) \ \ \ \pi_{1}{}^{2}(N) + \pi_{2}{}^{2}(N))}{\sqrt{\pi_{1}{}^{2}(N)+\pi_{2}{}^{2}(N)}} \\
+        &= (-\sin{\phi}\cos{\lambda} \ \ \ -\sin{\phi}\sin{\lambda} \ \ \ \cos{\phi})
+    \end{aligned}
+\end{equation}
+\begin{equation}
+    \hat{\epsilon} = \frac{(-\pi_{2}(N) \ \ \ \pi_{1}(N) \ \ \ 0)}{\sqrt{\pi_{1}{}^{2}(N)+\pi_{2}{}^{2}(N)}} = (-\sin{\lambda} \ \ \ \cos{\lambda} \ \ \ 0)
+\end{equation}
+For any heading \(\theta\) and central angle \(c\), we know the formula to give us the endpoint’s unit normal vector:
+\begin{equation}
+    N_{end} = N_{start}\cos{c} + (\hat{v}\cos{\theta} + \hat{\epsilon}\sin{\theta})\sin{c}
+\end{equation}
+Let \(\hat{D} = (\hat{v}\cos{\theta}+\hat{\epsilon}\sin{\theta})\) be the directional unit vector. We also know how to interpolate points on a great circle in two ways:
+\begin{equation}
+    N(t) = N_{start}\frac{\sin{(c-c(t))}}{\sin(c)} + N_{end}\frac{\sin{c(t)}}{\sin{c}}
+\end{equation}
+or
+\begin{equation}
+    N(t) = N_{start}\cos{c(t)} + \frac{N_{end}-N_{start}\cos{c}}{\sin{c}}\sin{c(t)}
+\end{equation}
+We can see that it is easy to move between these two formulae:
+\begin{equation}
+    \frac{N_{end}-N_{start}\cos{c}}{\sin{c}} = (\hat{v}\cos{\theta + \hat{\epsilon}}\sin{\theta}) = \hat{D}
+\end{equation}
+If we have a fixed start point and a fixed arc-distance to travel \(r\), we have an equation for all points equidistant from a reference point (a circle of radius \(r\)):
+\begin{equation}
+    N_{circle}(x) = N_{center}\cos{r} + (\hat{v}\cos{x} + \hat{\epsilon}\sin{x})\sin{r}
+\end{equation}
+Let \(\hat{B}(x) = (\hat{v}\cos{x} + \hat{\epsilon}\sin{x})\) be the bearing vector for bearing \(x\). At CPA, we can express the horizontal position of the intruder in terms of a circle around the ownship:
+\begin{equation}
+\label{eq:nicpa}
+    N_{I,CPA}(x) = N_{O,CPA}\cos{\frac{D_{H,CPA}}{R}} + \hat{B}_{CPA}(x)\sin{\frac{D_{H,CPA}}{R}}
+\end{equation}
+We know the parameterization of both tracks horizontally:
+\begin{equation}
+    N_{O}(t) = N_{O,CPA}\cos{\left( \frac{v_{T,O}}{R}(t-t_{CPA}) \right)} + \hat{D}_{O,CPA}\sin{\left( \frac{v_{T,O}}{R}(t-t_{CPA}) \right)}
+\end{equation}
+\begin{equation}
+    N^{'}_{O}(t) = \frac{v_{T,O}}{R} \left(-N_{O,CPA} \sin{\left( \frac{v_{T,O}}{R}(t-t_{CPA}) \right)} + \hat{D}_{O,CPA}\cos{\left( \frac{v_{T,O}}{R}(t-t_{CPA}) \right)} \right)
+\end{equation}
+\begin{equation}
+    N_{I}(x,t) = N_{I,CPA}\cos{\left( \frac{v_{T,I}}{R}(t-t_{CPA}) \right)} + \hat{D}_{I,CPA}\sin{\left( \frac{v_{T,I}}{R}(t-t_{CPA}) \right)}
+\end{equation}
+\begin{equation}
+    \frac{\partial N_{I}(x,t)}{\partial t} = \frac{v_{T,I}}{R} \left(-N_{I,CPA} \sin{\left( \frac{v_{T,I}}{R}(t-t_{CPA}) \right)} + \hat{D}_{I,CPA}\cos{\left( \frac{v_{T,I}}{R}(t-t_{CPA}) \right)} \right)
+\end{equation}
+At CPA, these are:
+\begin{equation}
+    N_{O}(t_{CPA}) = N_{O,CPA}
+\end{equation}
+\begin{equation}
+    N^{'}(t_{CPA}) = \frac{v_{T,O}}{R}\hat{D}_{O,CPA}
+\end{equation}
+\begin{equation}
+    N_{I}(x,t_{CPA}) = N_{I,CPA}(x) 
+\end{equation}
+\begin{equation}
+    \left. \frac{\partial N_{I}(x,t)}{\partial t} \right|_{t=t_{CPA}} = \frac{v_{T,I}}{R}\hat{D}_{I,CPA}
+\end{equation}
+Now remember horizontal distance is measured as:
+\begin{equation}
+    H(x,t) = 2R\arcsin{\frac{||N_{I}(x,t)-N_{O}(t)||}{2}}
+\end{equation}
+and its derivative is:
+\begin{equation}
+    \frac{\partial H(x,t)}{\partial t} = \frac{R(||N_{I}(x,t)-N_{O}(t)||)^{'}}{\sqrt{1-\left( \frac{||N_{I}(x,t)-N_{O}(t)||}{2} \right)^{2}}}
+\end{equation}
+where:
+\begin{equation}
+    (||N_{I}(x,t)-N_{O}(t)||)^{'} = \frac{(N_{I}-N_{O}) \cdot \frac{\partial (N_{I}-N_{O})}{\partial t}}{||N_{I}-N_{O}||} = \frac{(N_{I}-N_{O}) \cdot \left( \frac{\partial N_{I}}{\partial t} - N^{'}_{O}\right)}{||N_{I}-N_{O}||}
+\end{equation}
+We know:
+\begin{equation}
+    N_{I} \cdot \frac{\partial N_{I}}{\partial t} = \frac{v_{T,I}}{R}\cos{\left( 2\frac{v_{T,I}}{R}(t-t_{CPA} \right)}(N_{I,CPA} \cdot \hat{D}_{I,CPA}) = 0
+\end{equation}
+Therefore:
+\begin{equation}
+    \begin{aligned}
+        (N_{I}-N_{O}) \cdot \left( \frac{\partial N_{I}}{\partial t} - N^{'}_{O} \right) &= N_{I} \cdot \frac{\partial N_{I}}{\partial t} - N_{I} \cdot N^{'}_{O} - N_{O} \cdot \frac{\partial N_{I}}{\partial t} + N_{O} \cdot N^{'}_{O} \\
+        &= - \left( N_{I} \cdot N^{'}_{O} + N_{O} \cdot \frac{\partial N_{I}}{\partial t} \right)
+    \end{aligned}
+\end{equation}
+So:
+\begin{equation}
+    \frac{\partial H(x,t)}{\partial t} = -R\frac{N_{I}(x,t) \cdot N^{'}_{O}(t) + N_{O}(t) \cdot \frac{\partial N_{I}(x,t)}{\partial t}}{|| N_{I}(x,t) - N_{O}(t) || \sqrt{1 - \left( \frac{|| N_{I}(x,t) - N_{O}(t) ||}{2} \right)^{2}}}
+\end{equation}
+We also know the chord length is directly related to the central angle as:
+\begin{equation}
+    H(x,t) = 2R\arcsin{\frac{|| N_{I}(x,t) - N_{O}(t) ||}{2}}
+\end{equation}
+Therefore:
+\begin{equation}
+    ||N_{I}(x,t) - N_{O}(t)|| = 2\sin{\frac{H(x,t)}{2R}}
+\end{equation}
+By substituting into the denominator:
+\begin{equation}
+    \begin{aligned}
+        ||N_{I}(x,t)-N_{O}(t)||& \sqrt{1- \left( \frac{||N_{I}(x,t)-N_{O}(t)||}{2} \right)^{2}} \\
+        &= 2\sin{\frac{H(x,t)}{2R}}\sqrt{1-sin{^{2}\frac{H(x,t)}{2R}}} \\
+        &= \sin{\frac{H(x,t)}{R}}
+    \end{aligned}
+\end{equation}
+\begin{equation}
+    \frac{\partial H(x,t)}{\partial t} = -R \frac{N_{I}(x,t) \cdot N^{'}_{O}(t) + N_{O}(t) \cdot \frac{\partial N_{I}(x,t)}{\partial t}}{\sin{\frac{D_{H,CPA}}{R}}}
+\end{equation}
+At CPA, this becomes:
+\begin{equation}
+    -\frac{v_{T,I}N_{O,CPA} \cdot \hat{D}_{I,CPA}(x) + v_{T,O}N_{I,CPA}(x) \cdot \hat{D}_{O,CPA}}{\sin{\frac{D_{H,CPA}}{R}}}
+\end{equation}
+However,
+\begin{equation}
+    \frac{N_{I,CPA}(x)}{\sin{\frac{D_{H,CPA}}{R}}} = N_{O,CPA}\cot{\frac{D_{H,CPA}}{R}} + \hat{B}_{CPA}(x)
+\end{equation}
+And
+\begin{equation}
+    \begin{aligned}
+        &\left( N_{O,CPA}\cot{\frac{D_{H,CPA}}{R}} + \hat{B}_{CPA}(x) \right) \cdot \hat{D}_{O,CPA} \\
+        &= \cot{\frac{D_{H,CPA}}{R}} N_{O,CPA} \cdot \hat{D}_{O,CPA} + \hat{B}_{CPA}(x) \cdot \hat{D}_{O,CPA}
+    \end{aligned}
+\end{equation}
+But remember \( N_{O,CPA} \cdot \hat{D}_{O,CPA} = 0 \) so:
+\begin{equation}
+    \begin{aligned}
+        \frac{N_{I,CPA}(x)}{\sin{\frac{D_{H,CPA}}{R}}} = &\hat{B}_{CPA}(x) \cdot \hat{D}_{O,CPA} \\
+        &= (\hat{v}_{O,CPA}\cos{x} + \hat{\epsilon}\sin{x}) \cdot (\hat{v}_{),CPA}\cos{\theta_{O,CPA}} + \hat{\epsilon}_{O,CPA}\sin{\theta_{O,CPA}}) \\
+        &= \cos{x}\cos{\theta_{O,CPA}} + \sin{x}\sin{\theta_{O,CPA}} \\
+        &= \cos{(x-\theta_{O,CPA})}
+    \end{aligned}
+\end{equation}
+to get:
+\begin{equation}
+    - \left( \frac{v_{T,I}N_{O,CPA} \cdot \hat{D}_{I,CPA}(x)}{\sin{\frac{D_{H,CPA}}{R}}} + v_{T,O} \cos{(x-\theta_{O,CPA})} \right)
+\end{equation}
+Now we can calculate \(N_O,CPA \cdot \hat{v}_I,CPA\):
+\begin{equation}
+    \begin{aligned}
+        &N_{O,CPA} \cdot \hat{v}_{I,CPA} \\
+        &= N_{O,CPA} \\ \cdot
+        & \frac{(-\pi_{1}(N_{I,CPA})\pi_{3}(N_{I,CPA}) \ \ \ -\pi_{2}(N_{I,CPA})\pi_{3}(N_{I,CPA}) \ \ \ \pi_{1}{}^{2}(N_{I,CPA}) + \pi_{2}{}^{2}(N_I,CPA))}{\sqrt{\pi_{1}{}^{2}(N_{I,CPA}) + \pi_{2}{}^{2}(N_{I,CPA})}}
+    \end{aligned}
+\end{equation}
+Completing the dot-product produces the following in the numerator:
+\begin{equation}
+    \begin{aligned}
+        -\pi_{1}(N_{O,CPA})&\pi_{1}(N_{I,CPA})\pi_{3}(N_{I,CPA}) - \pi_{2}(N_{O,CPA})\pi_{2}(N_{I,CPA})\pi_{3}(N_{I,CPA}) \\
+        &+ \pi_{3}N_{O,CPA}(\pi_{1}{}^{2}(N_{I,CPA}) + \pi_{2}{}^{2}(N_{I,CPA})
+    \end{aligned}
+\end{equation}
+Simplifying the numerator, we get:
+\begin{equation}
+    \begin{aligned}
+        &\pi_{3}(N_{O,CPA}) - \pi_{3}(N_{I,CPA}) \cdot \\ 
+        &(\pi_{1}(N_{O,CPA})\pi_{1}(N_{I,CPA}) + \pi_{2}(N_{O,CPA})\pi_{2}(N_{I,CPA}) + \pi_{3}(N_{O,CPA})\pi_{3}(N_{I,CPA}))
+    \end{aligned}
+\end{equation}
+We can further simplify and get the whole equation as:
+\begin{equation}
+    = \frac{\pi_{3}(N_{O,CPA})-\pi_{3}(N_{I,CPA})N_{O,CPA} \cdot N_{I,CPA}}{\sqrt{\pi_{1}{}^{2}(N_{I,CPA}) + \pi_{2}{}^{2}(N_{I,CPA})}}
+\end{equation}
+Knowing what \(N_{I,CPA}\) is equal to from \ref{eq:nicpa}, we can simply further:
+\begin{equation}
+    = \frac{\pi_{3}(N_{O,CPA})-\pi_{3}(N_{I,CPA})\cos{\frac{D_{H,CPA}}{R}}}{\sqrt{\pi_{1}{}^{2}(N_{I,CPA}) + \pi_{2}{}^{2}(N_{I,CPA})}}
+\end{equation}
+We can substitute \(N_{I,CPA}\) with \ref{eq:nicpa} to reintroduce our unknown (\(x\)) back into the equation:
+\begin{equation}
+    = \frac{\pi_{3}(N_{O,CPA})\sin{\frac{D_{H,CPA}}{R}}-\pi_{3}(\hat{B}_{CPA}(x))\cos{\frac{D_{H,CPA}}{R}}}{\sqrt{\pi_{1}{}^{2}(N_{I,CPA}) + \pi_{2}{}^{2}(N_{I,CPA})}}\sin{\frac{D_{H,CPA}}{R}}
+\end{equation}
+We can replace the remaining \(N_{O,CPA}\) and \(N_{I,CPA}\) terms and the \(\hat{B}_{CPA}(x)\) term with their equivalents to only have one unknown (\(x\)):
+\begin{equation}
+    = \frac{\sin{\phi_{O,CPA}}\sin{\frac{D_{H,CPA}}{R}}-\cos{\phi_{O,CPA}}\cos{\frac{D_{H,CPA}}{R}}\cos{x}}{\sqrt{1- \left(\sin{\phi_{O,CPA}}\cos{\frac{D_{H,CPA}}{R}} + \cos{\phi_{O,CPA}}\sin{\frac{D_{H,CPA}}{R}}\cos{x} \right) }}\sin{\frac{D_{H,CPA}}{R}}
+\end{equation}
+Now, we can calculate east direction:
+\begin{equation}
+    N_{O,CPA} \cdot \hat{\epsilon}_{I,CPA} = N_{O,CPA} \cdot \frac{(-\pi_{2}(N_{I,CPA}) \ \ \ \pi_{1}(N_{I,CPA}) \ \ \ 0)}{\sqrt{\pi_{1}{}^{2}(N_{I,CPA}) + \pi_{2}{}^2(N_{I,CPA})}}
+\end{equation}
+Completing the dot-product, we get:
+\begin{equation}
+    = \frac{\pi_{2}(N_{O,CPA})\pi_{1}(N_{I,CPA})-\pi_{1}(N_{O,CPA})\pi_{2}(N_{I,CPA})}{\sqrt{\pi_{1}{}^{2}(N_{I,CPA})+\pi_{2}{}^{2}(N_{I,CPA})}}
+\end{equation}
+Utilizing \ref{eq:nicpa}, we can bring in our unknown (\(x\)):
+\begin{equation}
+    =\frac{\pi_{2}(N_{O,CPA})\pi_{1}(\hat{B}_{CPA}(x))-\pi_{1}(N_{O,CPA})\pi_{2}(\hat{B}_{CPA}(x))}{\sqrt{\pi_{1}{}^{2}(N_{I,CPA})+\pi_{2}{}^{2}(N_{I,CPA})}} \sin{\frac{D_{H,CPA}}{R}}
+\end{equation}
+Replacing the remaining \(N_{O,CPA}\) and \(N_{I,CPA}\) terms and the \(\hat{B}_{CPA}(x)\) term like we did in the north vector yields:
+\begin{equation}
+    \begin{aligned}
+        = (\cos{\phi_{O,CPA}}&\sin{\lambda_{O,CPA}})(-\sin{\phi_{O,CPA}}\cos{\lambda_{O,CPA}}\cos{x}-\sin{\lambda_{O,CPA}}\sin{x}) \\
+        &-(\cos{\phi_{O,CPA}}\cos{\lambda_{O,CPA}})(-\sin{\phi_O,CPA}\sin{\lambda_{O,CPA}}\cos{x} \\
+        &+ \cos{\lambda_{O,CPA}}\sin{x})\sin{\frac{D_{H,CPA}}{R}} \\
+        & / \sqrt{1 - \left( \sin{\phi_O,CPA}\cos{\frac{D_{H,CPA}}{R}} + \cos{\phi_{O,CPA}}\sin{\frac{D_{H,CPA}}{R}}\cos{x} \right)^{2}}
+    \end{aligned}
+\end{equation}
+Simplifying we get:
+\begin{equation}
+    =-\frac{\cos{\phi_{O,CPA}}\sin{x}}{\sqrt{1-\left( \sin{\phi_{O,CPA}}\cos{\frac{D_{H,CPA}}{R}} + \cos{\phi_{O,CPA}}\sin{\frac{D_{H,CPA}}{R}}\cos{x} \right)^{2}}}\sin{\frac{D_{H,CPA}}{R}}
+\end{equation}
+Now we have:
+\begin{equation}
+    \begin{aligned}
+        &\frac{N_{O,CPA} \cdot (\hat{v}_{I,CPA}\cos{\phi_{I,CPA}}+\hat{\epsilon}_{I,CPA}\sin{\theta_{I,CPA}})}{\sin{\frac{D_{H,CPA}}{R}}} \\
+        &= \frac{\left( \sin{\phi_{O,CPA}}\sin{\frac{D_{H,CPA}}{R}} - cos{\phi_{O,CPA}}\cos{\frac{D_{H,CPA}}{R}}\cos{x} \right)\cos{\theta_{I,CPA}} - \cos{\phi_{O,CPA}}\sin{x}\sin{\theta_{I,CPA}}}{\sqrt{1-\left( \sin{\phi_{O,CPA}}\cos{\frac{D_{H,CPA}}{R}} + \cos{\phi_{O,CPA}}\sin{\frac{D_{H,CPA}}{R}}\cos{x} \right)^{2}}}
+    \end{aligned}
+\end{equation}
+\begin{equation}
+\label{eq:genform}
+    \begin{aligned}
+        &\left. \frac{\partial H(x,t)}{\partial t} \right|_{t=t_{CPA}} \\
+        &= v_{T,I} \frac{a-b+c}{\sqrt{1-\left( \cos{\phi_{O,CPA}}\sin{\frac{D_{H,CPA}}{R}}\cos{x} + \sin{\phi_{O,CPA}}\cos{\frac{D_{H,CPA}}{R}} \right)^{2}}}\\
+        &\quad - v_{T,O}\cos{(x-\theta_{O,CPA})}
+    \end{aligned}
+\end{equation}
+where:
+\begin{multline}
+\label{eq:gennum}
+    a = \cos{\phi_{O,CPA}}\cos{\frac{D_{H,CPA}}{R}}\cos{\theta_{I,CPA}}\cos{x} \\ 
+    b = \sin{\phi_{O,CPA}}\sin{\frac{D_{H,CPA}}{R}}\cos{\theta_{I,CPA}} \\
+    c = \cos{\phi_{O,CPA}}\sin{\theta_{I,CPA}}\sin{x}
+\end{multline}
+The final equation (\ref{eq:genform} with \ref{eq:gennum}) is an equation with one unknown, the bearing (\(x\)), which satisfies all CPA constraints. This will give you the starting locations for each aircraft in the general case. It guarantees that the aircraft are at the required distances, at a specified encounter angle and single set of speeds. The constraint can be numerically solved. The only consideration left is to determine if the solution is maximal or minimal. If it is maximal, I think either there is a solution near the opposite bearing, or the constraints of the system are most likely malformed, and a solution is not attainable. See \autoref{chap:verification} and \autoref{chap:x0} for a detailed example that proves the derived question.

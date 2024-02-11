@@ -1,0 +1,39 @@
+\chapter{EnAcT Program}
+\label{chap:enactprogram}
+
+The algorithm developed in \hyperref[chap:math]{Chapter 2 Mathematical Forumlation and Algorithm} is implemented in a Java program known as Encounters from Actual Trajectories (EnAcT). This program can be described with the pseudo-code given in \hyperref[alg:enactrun]{Algorithm 1}. Java was chosen as the language platform due to experience plus the ability to transfer the program to any computer capable of running Java.
+~\\
+~\\
+\begin{algorithm}[H]
+\caption{EnAcT Program Run Sequence}
+\label{alg:enactrun}
+\begin{algorithmic}
+
+\State Read in inputs
+\While{There exists defined encounters to generate or required number not met}
+    \State Calculate bearing at CPA based on given inputs
+    \If{Bearing exists}
+        \State Determine heading of aircraft at CPA
+        \State Build trajectories of each aircraft
+        \State Print trajectories to file
+    \Else
+        \State Log that bearing could not be found
+        \State Skip this set of inputs
+    \EndIf
+\EndWhile 
+\end{algorithmic}
+\end{algorithm}
+~\\
+
+This program accepts inputs in two formats: 1) each encounter is defined with each of its properties explicitly by the user; or 2) probability distributions for each encounter property is defined along with the number of encounters to generate. The probability distributions can be given so that all encounters generated will fit the given distributions. Either set of inputs can generate an unlimited number of encounter scenarios with synthetic trajectories that match the given performance model (BADA). The properties define the encounter at the closest point of approach (CPA), and are:
+\begin{itemize}
+    \item Horizontal Separation Distance at CPA
+    \item Vertical Separation Distance at CPA
+    \item Latitude of Ownship at CPA
+    \item Longitude of Ownship at CPA
+    \item Encounter Angle at CPA
+    \item Aircraft types
+    \item Vertical Phase of flight for both aircraft
+    \item Number of encounters (if giving distributions)
+\end{itemize}
+The Java program uses \ref{eq:genform} and \ref{eq:gennum} to determine the bearing between two aircraft at the closest point of approach (CPA) based on the given inputs, which is step 3 in \hyperref[alg:enactrun]{Algorithm 1}. If a bearing can be found, the program then uses a trajectory engine, in this case BADA, to generate the trajectories of the two aircraft based on the initial starting point and the properties at CPA. The trajectories are then written out into a Comma Separated Value (CSV) file. If the bearing cannot be found, the attempt is skipped based on the given inputs, and is logged.

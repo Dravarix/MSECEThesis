@@ -1,0 +1,68 @@
+\documentclass[12pt]{rowanthesis}
+% \usepackage{packagename} % Add additional packages like this
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+
+% Preamble (PLEASE FILL IN ALL OF THE INFORMATION)
+%------------------------------------------------------------------------%
+\title{A NEW ALGORITHM FOR ENCOUNTER GENERATION: ENCOUNTERS FROM ACTUAL TRAJECTORIES (EnAcT)}
+\author{James A. Ritchie III} 
+\doclevel{Thesis}
+\department{Electrical and Computer Engineering}
+\school{College of Engineering}
+\degree{Master of Science in Electrical and Computer Engineering}
+\dateofdefense{October 31, 2023}
+\chair{Nidhal Bouaynaya, Ph.D., Associate Dean for Research and Graduate Studies and Professor, Department of Electrical and Computer Engineering}
+\chairsimple{Example Professor Name, Ph.D.}
+\committeememberone{Ravi Ramachandran, Ph.D., Professor, Department of Electrical and Computer Engineering}
+\committeemembertwo{Mike Paglione, Manager, Aviation Research Division, Office of Next Gen, Federal Aviation Administration }
+\copyrightyear{2023}
+\academicyear{2023-2024}
+%------------------------------------------------------------------------------%
+
+% Document body
+%------------------------------------------------------------------------%
+\begin{document}
+
+% Title Page and Copyright Page
+\makeTitlePage
+
+% Dedications Page
+\input{Dedication} 
+
+% ---Front of report (pages numbered in Roman Numerals)---%
+\begin{frontmatter}
+    % Acknowledgements(s) Page (Optional)
+    \input{Acknowledgement}
+    
+    % Abstract
+    \buildAbstract
+    
+    % TOC, LOF and LOT
+    \buildTOC
+    \buildListOfFigures
+    \buildListOfTables
+\end{frontmatter}
+%----------------------------------------------------------%
+
+% ---Body of report (pages numbered in Arabic Numerals)---%
+\begin{thesisbody}
+    \input{Chapters/chapter1}
+    \input{Chapters/chapter2}
+    \input{Chapters/chapter3}
+    \input{Chapters/chapter4}
+    \input{Chapters/chapter5}
+    \input{Chapters/chapter6}
+    \input{Chapters/chapter7}
+    \input{Chapters/chapter8}
+    
+    % Bibliography
+    \buildBibliography
+    
+    % Appendices
+    \input{Chapters/appendices}
+    
+\end{thesisbody}
+%---------------------------------------------------------%
+
+\end{document}
