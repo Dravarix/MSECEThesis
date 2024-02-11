@@ -1,0 +1,145 @@
+\chapter{Results of EnAcT Algorithm}
+The algorithm was tested in two ways: by generating a million conflicts and comparing them to their expected values at the closest point of approach (CPA) and visual inspection of a small subset of the conflicts. This section describes the results of both of these methods.
+
+\section{Simulations}
+The first test performed to validate the algorithm was to compare the parameters of the generated trajectories to the user-specified CPA properties: horizontal separation distance, vertical separation distance, encounter angle, ownship latitude, ownship longitude, and ownship altitude at CPA.
+
+We considered the mean absolute error between the userinput conflict properties (ground truth) and the properties of the generated conflicting trajectories. The mean errors, averaged over 100,000 trajectories, are displayed in \ref{table:error} for each conflict property. Observe that these errors are of the order of the numerical and rounding errors of the Java virtual machine (JVM). This result is expected because the algorithm adopts the user-specified conflict properties in an exact mathematical formulation of the problem.
+
+\begin{table}[H]
+\caption{Mean Absolute Error for each Conflict Property}
+\label{table:error}
+\begin{center}
+\begin{tabular}{c|c|c} 
+    \hline
+    \textbf{Property Name at CPA} & \textbf{Mean Error} & \textbf{St. Dev.} \\
+    \hline
+    \hline
+    Horizontal Separation (ft) & -3.72E-13 & 2.77E-9 \\
+    \hline
+    Vertical Separation (ft) & -3.05E-18 & 1.90E-14 \\ 
+    \hline
+    Encounter Angle (\textdegree) & -2.41E-13 & 1.97E-10 \\ 
+    \hline
+    Ownship Latitude (\textdegree) & -3.55E-17 & 4.83E-15 \\
+    \hline
+    Ownship Longitude (\textdegree) & -1.82E-15 & 1.06E-14 \\
+    \hline
+    Ownship Altitude (\textdegree) & 0 & 0 \\
+    \hline
+\end{tabular}
+\end{center}
+\end{table}
+~\\
+
+\section{Visual Inspection}
+We used a visualization tool to visually inspect the generated conflicting trajectories for different conflict events. For instance, \ref{table:fliteviz} shows three different conflict events: a crossing conflict with both flights level, a shallow angle conflict with one of the flights ascending and the other level, and a crossing conflict with one flight ascending and the other level.
+
+\begin{table}[H]
+\caption{Conflict Properties for each Specified Conflict Event in FliteViz4D}
+\label{table:fliteviz}
+\centering
+\resizebox{\columnwidth}{!}{
+\begin{tabular}{c|c|c|c|c|c} 
+    \hline
+    \textbf{Ownship VPoF} & \textbf{Intruder VPoF} & \textbf{Horizontal Sep (nmi)} & \textbf{Vertical Sep (ft)} & \textbf{Encounter Angle (\textdegree)} & \textbf{Altitude of Ownship at CPA (ft)} \\
+    \hline
+    \hline
+    Level & Level & 0.05 & 0 & 90 & 35000 \\
+    \hline
+    Ascending & Level & 2 & 500 & 15 & 35000 \\ 
+    \hline
+    Ascending & Level & 0.05 & 0 & 90 & 35000 \\ 
+    \hline
+\end{tabular}
+}
+\end{table}
+~\\
+
+The first conflict is a collision event set to occur with both aircraft approaching each other at a 90\textdegree angle. \ref{fig:LevLevConflictVisual} shows an overhead view of the two aircraft flying their generated trajectories for this conflict. The circles around the aircraft are 2.5 nmi in diameter and are 1000 ft tall. These circles represent the legal separation distance of two aircraft in En Route airspace. If the circles overlap, it means that the two aircraft have lost legal separation, i.e. conflict. This visualization shows that the aircraft conflict is as expected at 90\textdegree angle with a collision event. \ref{fig:LevLevConflictChart} shows the separation distance between the aircraft over time. This chart confirms that the closest point of approach occurred at the expected time of 60 seconds.
+
+\begin{figure}[H]
+\centering
+\resizebox{\columnwidth}{!}{
+\includegraphics{Figures/LevLevCrossingConflict_OverheadView.png}
+\caption{Overhead View of the Level-Level Crossing Conflict}
+\floatfoot{\textit{Note.} The legal En Route separation distance is shown as circles around the aircraft, and the small spheres represent a generated track point. Please note that the aircraft models are exaggerated in scale.}
+\label{fig:LevLevConflictVisual}
+}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\resizebox{\columnwidth}{!}{
+\includegraphics{Figures/LevLevCrossingConflict_Chart.png}
+\caption{Distance Between the Aircraft Over Time in the Level-Level Crossing Conflict}
+\floatfoot{\textit{Note.} The $x$-axis represents time in seconds, and the $y$-axis is the distance between the two aircraft in feet. The color of the dots represents the vertical separation between the aircraft, with red being the smallest distance and green being the furthest.} 
+\label{fig:LevLevConflictChart}
+}
+\end{figure}
+~\\
+
+The second conflict spaced each other with a minimum distance of 2 nmi which resulted in a non-collision conflict event. In this event, the ownship was ascending and approaching the intruder at a shallow angle (0\textdegree - 15\textdegree). \ref{fig:AscLevCrossingConflictOverheadVisual} displays the overhead view of the conflict event, while \ref{fig:AscLevCrossingConflictSideVisual} shows a side view. The trajectories generated matched what was expected, with one flight ascending and the other level. \ref{fig:AscLevCrossingConflictChart} illustrates the distance between both aircraft, proving that the closest point of approach occurred around the expected time of 60 seconds.
+
+\begin{figure}[H]
+\centering
+\resizebox{\columnwidth}{!}{
+\includegraphics{Figures/AscLevShallowAngleConflict_OverheadView.png}
+\caption{Overhead View of the Ascending-Level Shallow Angle Conflict}
+\floatfoot{\textit{Note.} The legal En Route separation distance is shown as circles around the aircraft, and the small spheres represent a generated track point. The Aircraft denoted as AA3 is ascending, while the other is level. Please note that the aircraft models are exaggerated in scale.}
+\label{fig:AscLevShallowAngleConflictOverheadVisual}
+}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\resizebox{\columnwidth}{!}{
+\includegraphics{Figures/AscLevShallowAngleConflict_SideView.png}
+\caption{Side View of the Ascending-Level Shallow Angle Conflict}
+\floatfoot{\textit{Note.} The legal En Route separation distance is shown as circles around the aircraft, and the small spheres represent a generated track point. The Aircraft denoted as AA3 is ascending, while the other is level. Please note that the aircraft models are exaggerated in scale.}
+\label{fig:AscLevShallowAngleConflictSideVisual}
+}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\resizebox{\columnwidth}{!}{
+\includegraphics{Figures/AscLevShallowAngleConflict_Chart.png}
+\caption{Distance between the Aircraft Over Time for the Shallow-Angle Conflict}
+\floatfoot{\textit{Note.} The $x$-axis denotes time in seconds, while the $y$-axis denotes the distance between the two aircraft in feet. The color of the dots represents the vertical separation between the aircraft, with red being the smallest distance and green being the furthest.}
+\label{fig:AscLevShallowAngleConflictChart}
+}
+\end{figure}
+~\\
+
+The third conflict was a combination of the first and second events, with the aircraft trajectories forming a collision conflict at a crossing angle of 90\textdegree, but with one aircraft ascending and the other level. \ref{fig:AscLevCrossingConflictOverheadVisual} and \ref{fig:AscLevCrossingConflictSideVisual} illustrate the overhead and side views of the conflict, respectively. It can be seen that the aircraft are following the expected trajectories based on the given conflict properties. The distance between the aircraft over time is shown in \ref{fig:AscLevCrossingConflictChart}, which proves that the aircraft reach minimum separation at the expected time of 60 seconds.
+
+\begin{figure}[H]
+\centering
+\resizebox{\columnwidth}{!}{
+\includegraphics{Figures/AscLevCrossingConflict_OverheadView.png}
+\caption{Overhead View of the Ascending-Level Crossing Conflict}
+\floatfoot{\textit{Note.} The legal En Route separation distance is shown as circles around the aircraft, and the small spheres represent a generated track point. The Aircraft denoted as AA5 is ascending, while the other is level. Please note that the aircraft models are exaggerated in scale.}
+\label{fig:AscLevCrossingConflictOverheadVisual}
+}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\resizebox{\columnwidth}{!}{
+\includegraphics{Figures/AscLevCrossingConflict_SideView.png}
+\caption{Side View of the Ascending-Level Crossing Conflict} 
+\floatfoot{\textit{Note.} The legal En Route separation distance is shown as circles around the aircraft, and the small spheres represent a generated track point. The Aircraft denoted as AA5 is ascending, while the other is level. Please note that the aircraft models are exaggerated in scale.}
+\label{fig:AscLevCrossingConflictSideVisual}
+}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\resizebox{\columnwidth}{!}{
+\includegraphics{Figures/AscLevCrossingConflict_Chart.png}
+\caption{Distance Between the Aircraft Over Time for the Ascending-Level Crossing Conflict} 
+\floatfoot{\textit{Note.} The $x$-axis denotes time in seconds, while the $y$-axis denotes the distance between the two aircraft in feet. The color of the dots represents the vertical separation between the aircraft, with red being the smallest distance and green being the furthest.}
+\label{fig:AscLevCrossingConflictChart}
+}
+\end{figure}

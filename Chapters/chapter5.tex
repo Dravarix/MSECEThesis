@@ -1,0 +1,31 @@
+\chapter{Data Collection and Estimation Process for Encounter Study}
+This chapter describes the methodology used for collecting the study data as well as the estimation process used to determine the distribution information for each conflict property.
+
+\section{Data Collection and Processing}
+Analysts used OPSNET\footnote{Operations Network (OPSNET) is the official source of NAS air traffic operations and delay data. The OPSNET website is \url{https://aspm.faa.gov/}} to determine which day in the NAS had a high amount of traffic with little delay, including delays from weather. Traffic in January of 2016 is examined in this study, with January 31 being found to have relatively higher traffic volumes with a low number of delays.
+
+NASQuest\footnote{NASQuest is the FAA’s data repository for the Common Message Set (CMS) from all 20 EnRoute centers. It collects CMS data from either the legacy Host Computer System (HCS) if still in operation or ERAM.}  was utilized to retrieve the 24-hour flight data from ERAM for each of the 20 Air Route Traffic Control Centers (ARTCCs) in the NAS. Analysts processed the Common Message Set (CMS) for each ARTCC using the Modeling and Simulation Branch’s software suite. This suite analyzes the CMS messages and inserts the data into a series of relational tables within their database. A set of related tables is referred to as a scenario.
+
+Next, the Trajectory Conflict Probe software predicts the conflict events that would have occurred without controller intervention. Alert messages are created based on predicted conflict events. Each message created contains detailed information describing the specific aircraft predicted to be in a specified conflict or encounter, the location, and other properties of the event.
+
+\section{Estimation Process}
+Upon completion of the Trajectory Conflict Probe software, predicted conflict alerts and their properties are stored within a database. Trajectory Conflict Probe produces multiple messages for a predicted event throughout the duration of the event. Conflict property information is contained in the first message of the alert. 
+
+The following subsections discuss the K-means process used for determining the distribution of the conflict location property and the process used for determining the empirical distributions of the other conflict properties.
+
+\subsection{Encounter Location}
+The three-dimensional location of the predicted start of the encounter event is examined in a two-step process. First, the horizontal position of each aircraft in an event, consisting of latitude and longitude, is investigated. Next, the altitude at the positions is independently examined.
+
+\subsubsection{Horizontal Location}
+A K-means clustering algorithm is used to analyze horizontal locations. Clusters are created based on the latitude and longitude of the aircraft involved in a predicted encounter event. A cluster represents a section of airspace where a group of predicted encounter events occurs. A two-dimensional normal distribution is used to model the center and spread of each cluster. The centroid location (mean) is estimated by the mean latitude and longitude of the aircraft at the beginning of the encounter. The standard deviation represents the spread of the locations for the given cluster.
+
+For this study, the latitude and longitude of the subject aircraft in each predicted encounter event is used. The K-means clustering algorithm is set to produce 20 clusters for a given airspace. Each cluster’s mean and standard deviation is stored for input into EnAcT.
+
+\subsubsection{Altitude Location}
+The altitude location property is examined by using the altitude of the subject aircraft in the predicted encounter event. The altitude data is plotted using the Distribution platform in JMP\textregistered. After plotting the altitude data in bins, the Continuous Fit option is applied, which tries to fit the data with different distributions and compares them (SAS, 2016). JMP\textregistered generates a report with the comparison between each fit. The report also displays the parameters of each fit. For example, if the data fit a normal three-mixture model, three means, three standard deviations, and three frequency estimates describe the distribution. The frequency values define the proportion of each normal distribution to the mixture, so the values are between zero and one and the sum of the values is unity.
+
+\subsection{Other Encounter Properties}
+For the minimum horizontal separation, the minimum vertical separation, the encounter angle, the vertical phase of flight pairs, and the aircraft types, empirical distributions are used for the analysis. These properties are binned as described in section two to form the empirical distributions. 
+
+The vertical phase of flight property is determined by looking at the vertical phase of flight for each aircraft at the time of the predicted event and determining the classification. Each pair becomes a bin, with a count for each predicted conflict event that falls in each bin. The aircraft type is done in a similar way, where the total of each aircraft type is counted and presented.
+

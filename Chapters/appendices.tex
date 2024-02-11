@@ -1,0 +1,134 @@
+
+\begin{theappendices}
+
+\chapter{Verification of Algorithm Derivation}
+\label{chap:verification}
+Example:
+\[N_{O,CPA} = (1 \ \ 0 \ \ 0)\]
+\[\hat{v}_{O,CPA} = (0 \ \ 0 \ \ 1)\]
+\[\hat{\epsilon}_{O,CPA} = (0 \ \ 1 \ \ 0)\]
+\[\theta_{O,CPA} = 0\]
+\[\theta_{I,CPA} = \frac{\pi}{2}\]
+\[\hat{B}_{CPA}(x) = (0 \ \ \sin{x} \ \ \cos{x})\]
+\[\hat{D}_{O,CPA} = \hat{v}_{O,CPA}\]
+\[N_{O}(t) = \left(\cos{\left(\frac{v_{T,O}}{R}(t-t_{CPA})\right)} \ \ \ 0 \ \ \ \sin{\left(\frac{v_{T,O}}{R}(t-t_{CPA})\right)}\right)\]
+\[N_{O}(t_{CPA}) = N_{O,CPA}\]
+\[N_{O}^{'}(t) = \frac{v_{T,O}}{R}\left(-\sin{\left(\frac{v_{T,O}}{R}(t-t_{CPA})\right)} \ \ \ 0 \ \ \ \cos{\left(\frac{v_{T,O}}{R}(t-t_{CPA})\right)}\right)\]
+\[N_{O}^{'}(t_{CPA}) = \frac{v_{T,O}}{R}\hat{D}_{O,CPA} = \frac{v_{T,O}}{R} \hat{v}_{O,CPA}\]
+\[N_{I,CPA}(x) = \left(\cos{\frac{D_{H,CPA}}{R}} \ \ \ \sin{\frac{D_{H,CPA}}{R}}\sin{x} \ \ \ \sin{\frac{D_{H,CPA}}{R}}\cos{x}\right)\]
+\[\sqrt{1-\pi_{3}{}^2(N_{I,CPA})} = \sqrt{1-\sin{^2\frac{D_{H,CPA}}{R}}\cos{^2x}}\]
+\[\hat{v}_{I,CPA}(x) = \frac{\left( -\cos{\frac{D_{H,CPA}}{R}}\sin{\frac{D_{H,CPA}}{R}}\cos{x} \ \ \ -\sin{^{2}\frac{D_{H,CPA}}{R}}\cos{x} \ \ \ 1-\sin{^{2}\frac{D_{H,CPA}}{R}}\cos{^{2}x} \right)}{\sqrt{1-\sin{^{2}\frac{D_{H,CPA}}{R}}\cos{^{2}x}}}\]
+\[\hat{\epsilon}_{I,CPA}(x) = \frac{\left( -\sin{\frac{D_{H,CPA}}{R}}\sin{x} \ \ \ \cos{\frac{D_{H,CPA}}{R}} \ \ \ 0\right)}{\sqrt{1-\sin{^{2}\frac{D_{H,CPA}}{R}}\cos{^{2}x}}}\]
+\[\hat{D}_{I,CPA}(x) = \hat{\epsilon}_{I,CPA}(x)\]
+\[N_{I}(x,t) = N_{I,CPA}(x)\cos{\left( \frac{v_{T,I}}{R}(t-t_{CPA}) \right) + \hat{\epsilon}_{I,CPA}(x)\sin{\left( \frac{v_{T,I}}{R}(t-t_{CPA}) \right)}}\]
+\[N_{I}(x,t_{CPA}) = N_{I,CPA}(x)\]
+\[\frac{\partial N_{I}(x,t)}{\partial t} = \frac{v_{T,I}}{R} \left( -N_{I,CPA}(x) \sin{\left( \frac{V_{T,I}}{R}(t-t_{CPA}) \right) + \hat{\epsilon}_{I,CPA}(x)\cos{\left( \frac{v_{T,I}}{R}(t-t_{CPA}) \right)}} \right)\]
+\[\left. \frac{\partial N_{I}(x,t)}{\partial t}\right|_{t=t_{CPA}} = \frac{v_{T,I}}{R}\hat{D}_{I,CPA}(x) = \frac{v_{T,I}}{R}\hat{\epsilon}_{I,CPA}(x)\]
+\[||N_{I,CPA}-N_{O,CPA}|| = 2\sin{\frac{D_{H,CPA}}{2R}}\]
+\[H(t_{CPA}) = 2R\arcsin{\frac{||N_{I,CPA}-N_{O,CPA}||}{2}} = D_{H,CPA}\]
+\[N_{O}(t_{CPA}) \cdot N^{'}_{O}(t_{CPA}) = \frac{v_{T,O}}{R}(1 \ \ \ 0 \ \ \ 0) \cdot (0 \ \ \ 0 \ \ \ 1) = 0\]
+\begin{equation*}
+    \begin{aligned}
+        N_{O}(t_{CPA}) \cdot \left. \frac{\partial N_{I}(x,t)}{\partial t} \right|_{t=t_{CPA}} \\
+        &= \frac{v_{T,I}}{R}(1 \ \ \ 0 \ \ \ 0) \\
+        &\cdot \left( -\frac{\sin{\frac{D_{H,CPA}}{R}}\sin{x}}{\sqrt{1 - \sin{^{2}\frac{D_{H,CPA}}{R}}\cos{^{2}x}}} \ \ \ \frac{\cos{\frac{D_{H,CPA}}{R}}}{\sqrt{1-\sin{^{2}\frac{D_{H,CPA}}{R}}\cos{^{2}x}}} \ \ \ 0\right)
+    \end{aligned}
+\end{equation*}
+\[= -\frac{v_{T,I}}{R}\frac{\sin{\frac{D_{H,CPA}}{R}}\sin{x}}{\sqrt{1-\sin{^{2}\frac{D_{H,CPA}}{R}}\cos{^{2}x}}}\]
+\[N_{I}(x,t_{CPA}) \cdot N^{'}_{O}(t_{CPA}) = \frac{v_{T,O}}{R} \left( \cos{\frac{D_{H,CPA}}{R}} \ \ \ \sin{\frac{D_{H,CPA}}{R}\sin{x}} \ \ \ \sin{\frac{D_{H,CPA}}{R}\cos{x}} \right) \cdot (0 \ \ \ 0 \ \ \ 1)\]
+\[= \frac{v_{T,O}}{R}\sin{\frac{D_{H,CPA}}{R}\cos{x}} \]
+
+\[N_{I}(x,t_{CPA}) \cdot \left. \frac{\partial N_{I}(x,t_{CPA})}{\partial t} \right|_{t=t_{CPA}} = \frac{v_{T,I}}{R} \left( \cos{\frac{D_{H,CPA}}{R} \ \ \ \sin{\frac{D_{H,CPA}}{R}\sin{x}} \ \ \ \sin{\frac{D_{H,CPA}}{R}}\cos{x}} \right)\]
+\[\cdot \left( -\frac{\sin{\frac{D_{H,CPA}}{R}}\sin{x}}{\sqrt{1-\sin{^{2}\frac{D_H,CPA}{R}}\cos{^{2}x}}} \ \ \ \frac{\cos{\frac{D_H,CPA}{R}}}{\sqrt{1-\sin{^{2}\frac{D_{H,CPA}}{R}}\cos{^{2}x}}} \ \ \ 0\right) = 0\]
+\[\left. \frac{\partial H(x,t)}{\partial t} \right|_{t=t_{CPA}} = v_{T,I}\frac{\sin{x}}{\sqrt{1-\sin{^{2}\frac{D_{H,CPA}}{R}}\cos{^{2}x}}} - v_{T,O}\cos{x}\]
+We can use the derivation directly instead. The general form is:
+\begin{equation*}
+    \begin{aligned}
+        &\left. \frac{\partial H(x,t)}{\partial t} \right|_{t=t_{CPA}} \\
+        &= v_{T,I} \frac{a-b+c}{\sqrt{1-\left( \cos{\phi_{O,CPA}}\sin{\frac{D_{H,CPA}}{R}}\cos{x} + \sin{\phi_{O,CPA}}\cos{\frac{D_{H,CPA}}{R}} \right)^{2}}}\\
+        &\quad - v_{T,O}\cos{(x-\theta_{O,CPA})}
+    \end{aligned}
+\end{equation*}
+where:
+\begin{multline*}
+    a = \cos{\phi_{O,CPA}}\cos{\frac{D_{H,CPA}}{R}}\cos{\theta_{I,CPA}}\cos{x} \\ 
+    b = \sin{\phi_{O,CPA}}\sin{\frac{D_{H,CPA}}{R}}\cos{\theta_{I,CPA}} \\
+    c = \cos{\phi_{O,CPA}}\sin{\theta_{I,CPA}}\sin{x}
+\end{multline*}
+First substitute the headings provided in the example:
+\begin{equation*}
+    \begin{aligned}
+        \left. \frac{\partial H(x,t)}{\partial t} \right|_{t=t_{CPA}}
+        &= v_{T,I} \frac{\cos{\phi_{O,CPA}}\sin{x}}{\sqrt{1-\left( \cos{\phi_{O,CPA}}\sin{\frac{D_{H,CPA}}{R}}\cos{x} + \sin{\phi_{O,CPA}}\cos{\frac{D_{H,CPA}}{R}} \right)^{2}}}\\
+        &\quad - v_{T,O}\cos{(x)}
+    \end{aligned}
+\end{equation*}
+Then substitute the starting coordinates of the ownship:
+\[\left. \frac{\partial H(x,t)}{\partial t} \right|_{t=t_{CPA}} = v_{T,I}\frac{\sin{x}}{\sqrt{1-\sin{^{2}\frac{D_{H,CPA}}{R}}\cos{^{2}x}}} - v_{T,O}\cos{(x)}\]
+This is identical to what we found using the vector formulation.
+Since this is the spherical equivalent of calculating the closing speed, we should see if it makes sense at its limit. In the planar case, the problem becomes, there is an ownship heading north and an intruder heading east. At CPA they have speed vectors:
+\[(0 \ \ \ v_{T,O})\]
+and
+\[(v_{T,I} \ \ \ 0)\]
+respectively. Also, they are separated by distance \(D_{H,CPA}\), so the vector pointing between them is:
+\[D_{H,CPA}(\sin{x} \ \ \ \cos{x})\]
+for some bearing \(x\). And the relative motion of the aircraft is:
+\[(v_{T,I} \ \ \ -v_{T,O})\]
+So, we have:
+\[H(x,t_{CPA}) = ||D_{H,CPA}(\sin{x} \ \ \ \cos{x}) || = D_{H,CPA}\]
+\[\left. \frac{\partial H(x,t)}{\partial t} \right|_{t=t_{CPA}} = (v_{T,I} \ \ \ -v_{T,O}) \cdot (\sin{x} \ \ \ \cos{x}) = v_{T,I}\sin{x}-v_{T,O}\cos{x}\]
+But the sphere is locally approximated as a plane:
+\[ \lim_{D_{H,CPA}\to\ 0} \left. \frac{\partial H(x,t)}{\partial t} \right|_{t=t_{CPA}} = v_{T,I}\sin{x} - v_{T,O}\cos{x} \]
+The limit of the spherical version is identical to the planar version in our example. This is a promising bit of validation. Now if we select a few bearings (returning to the spherical equation), we see there are choices that negate the effects of one aircraft entirely (meaning that aircraft does not contribute to the closing vector at \(t_{CPA}\)):
+\[ \left. \frac{\partial H(0,t)}{\partial t} \right|_{t=t_{CPA}} = -v_{T,O} \]
+\[ \left. \frac{\partial H(\frac{\pi}{2},t)}{\partial t} \right|_{t=t_{CPA}} = v_{T,I} \]
+\[ \left. \frac{\partial H(\pi,t)}{\partial t} \right|_{t=t_{CPA}} = v_{T,O} \]
+Getting back to our example, let’s select a horizontal CPA separation of 5000m and tangential velocities of 200m/s and 180m/s for ownship and intruder respectively. Also, let’s assume there is no vertical component. Plugging these additional constraints into the system yields:
+\[ \left. \frac{\partial H(x,t)}{\partial t} \right|_{t=t_{CPA}} = 180\frac{\sin{x}}{\sqrt{1-\sin{^{2}\frac{5000}{6378137}}\cos{^{2}x}}} - 200\cos{x} \]
+Remember our original system demanded:
+\[ H(t_{CPA})\left. \frac{\partial H(x,t)}{\partial t} \right|_{t=t_{CPA}} + V(t_{CPA})V^{'}(t_{CPA}) = 0 \]
+The vertical component is much more straightforward:
+\[ V(t_{CPA}) = \pm D_{V,CPA} \]
+\[ V^{'}(t_{CPA}) = v_{N,I} - v_{N,O} = \Delta v_{N} \]
+Our constraint is now:
+\[ \left. \frac{\partial H(x,t)}{\partial t} \right|_{t=t_{CPA}} = \mp \frac{D_{V,CPA} \Delta v_{N}}{D_{H,CPA}} \]
+In our example, we are ignoring the vertical component, therefore:
+\[ 180 \frac{\sin{x}}{\sqrt{1-\sin{^{2}\frac{5000}{6378137}}\cos{^{2}x}}} - 200\cos{x} = 0 \]
+is the solution to the system. Simplifying:
+\[ \frac{\tan{x}}{\sqrt{1-\sin{^{2}\frac{5000}{6378137}}\cos{^{2}x}}}-\frac{200}{180} = 0 \]
+The derivative of this is:
+\[ \frac{\sec{^{2}x} - \sin{^{2}\frac{5000}{6378137}(1+\sin{^{2}x})}}{\left( 1-\sin{^{2}\frac{5000}{6378137}\cos{^{2}x}} \right)^{3/2}} \]
+The Newton-Raphson process for this scenario is then:
+\[ x_{n+1} = x_{n} - \frac{\left( \frac{\tan{x_{n}}}{\sqrt{1-\sin{^{2}\frac{5000}{6378137}}\cos{^{2}x_{n}}}} - \frac{200}{180}\right)}{\left( 
+\frac{\sec{^{2}x_{n}} - \sin{^{2}\frac{5000}{6378137}(1+\sin{^{2}x_{n}})}}{\left( 1-\sin{^{2}\frac{5000}{6378137}\cos{^{2}x_{n}}} \right)^{3/2}} \right)}\]
+Starting at \(x_{0} = 0.8379812250083900\) (See \autoref{chap:x0} for how \(x_{0}\) was found):
+\[ x_{0} = 0.8379812250083900 \]
+\[ x_{1} = 0.8379811566341185 \]
+\[ x_{2} = 0.8379811566341134 \]
+We also know due to the nature of this formula that \(x+\pi\) will be another valid solution to the equation.
+
+\chapter{How x0 Was Found for Example}
+\label{chap:x0}
+A good initial guess for the system should be for \(u = \theta_{O,CPA} \):
+\[ (v_{T,I}\cos{\Delta\theta_{CPA}}-v_{T,O})\cos{u}+v_{T,I}\sin{\Delta\theta_{CPA}}\sin{u}\pm\frac{D_{V,CPA}\Delta v_{N}}{D_{H,CPA}} = 0 \]
+This is justifiable for \( D_{H,CPA}\ll R\), which is a reasonable assumption for this system.
+Now use the following procedure:
+\[A = (v_{T,I}\cos{\Delta\theta_{CPA}}-v_{T,O})\]
+\[B = v_{T,I}\sin{\Delta\theta_{CPA}}\]
+\[R = \mp \frac{D_{V,CPA}\Delta v_{N}}{D_{H,CPA}}\]
+\[Q = \sqrt{A^2+B^2-R^2}\]
+\[\tan{u} = \frac{BR \pm AQ}{AR \mp BQ}\]
+Notice that this implies valid solutions only occur when \(A^2 + B^2 \geq R^2\). In oither words:
+\[D_{H,CPA}{}^2(v_{T,O}{}^2+v_{T,I}{}^2-2v_{T,O}v_{T,I}\cos{\Delta\theta_{CPA}}) \geq D_{V,CPA}{}^2\Delta v_{N}{}^2\]
+This shows that we have a quick way of verifying the validity of user parameterization.
+For a worked-out example:
+\[A = -200\]
+\[B = 180\]
+\[R = 0\]
+\[\tan{u} = \frac{\mp 200}{\mp 180}\]
+\[u = x - \theta_{O,CPA} = \arctan{\frac{10}{9}} \approx 0.8379812250083900 + n\pi\]
+So, the solutions are:
+\[0.8379812250083900\]
+\[0.8379812250083900+\pi=3.9795738785981833\] 
+\[0.8379812250083900-\pi=-2.3036114285814032\]
+\end{theappendices}
